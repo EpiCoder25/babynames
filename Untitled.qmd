@@ -1,0 +1,29 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+execute:
+  echo:false
+  message:false
+---
+```{r}
+#! echo: false
+#! message: false
+library(tidyverse)
+```
+
+
+```{r}
+x  <- read_csv("data/i_names.csv", show_col_types = FALSE)
+x <- babyname |> 
+  select(year, names, sex, prop) |> 
+  count(name(n = )) |>  
+  mutate(prop = prop * 1000000) |> 
+  summarize(sum_prop = sum(prop), .by = c(year, sex)) |>  filter(year >= 1900)
+  ggplot(aes(x=year, y = sum_prop)) + geom_density()
+
+glimpse(x)
+
+
+```
+
