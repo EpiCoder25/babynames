@@ -20,7 +20,7 @@ x <- babyname |>
   count(name(n = )) |>  
   mutate(prop = prop * 1000000) |> 
   summarize(sum_prop = sum(prop), .by = c(year, sex)) |>  filter(year >= 1900)
-  ggplot(aes(x=year, y = sum_prop)) + geom_density()
+  ggplot(aes(x=year, y = sum_prop, color= sex)) + geom_density()
 
 glimpse(x)
 
