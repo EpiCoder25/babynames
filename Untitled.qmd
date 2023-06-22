@@ -2,25 +2,32 @@
 title: "Untitled"
 format: html
 editor: visual
-execute:
-  echo:false
-  message:false
+
 ---
 ```{r}
 #! echo: false
 #! message: false
 library(tidyverse)
 ```
+```{r}
+library(tidyverse)
+x |> 
+  summarize(sum_n = sum(n), .by = c(year, sex)) 
+|> 
+  ggplot()
+```
 
 
 ```{r}
 x  <- read_csv("data/i_names.csv", show_col_types = FALSE)
-x <- babyname |> 
-  select(year, names, sex, prop) |> 
-  count(name(n = )) |>  
-  mutate(prop = prop * 1000000) |> 
-  summarize(sum_prop = sum(prop), .by = c(year, sex)) |>  filter(year >= 1900)
-  ggplot(aes(x=year, y = sum_prop, color= sex)) + geom_density()
+x |> 
+  select(year, sex, n, prop) |>  
+  summarize(sum_prop = sum(prop), .by = c(year, sex)) |>  
+  filter(year >= 1900) |> 
+  ggplot(aes(x=year, y = sum_prop, color= sex, fill = sex)) + 
+  geom_area(aes(fill = sex)) +
+  scale_y_continuous(labels = scales::percent_format())+
+  labs(title = "US Babies Receiving Names Ending in -i", subtitle = "Boy names ending with -i are steadily increasing", x = "year", y = "percent", fill = "sex", caption = "Babynames R package")
 
 glimpse(x)
 
